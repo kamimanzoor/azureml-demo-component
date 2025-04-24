@@ -1,0 +1,17 @@
+$schema: https://azuremlschemas.azureedge.net/latest/commandComponent.schema.json
+name: my_eval
+#version: 4.0.2
+display_name: Eval
+type: command
+inputs:
+  scoring_result:
+    type: uri_folder
+outputs:
+  eval_output:
+    type: uri_folder
+environment: azureml://registries/azureml/environments/sklearn-1.5/labels/latest
+code: ./eval_src
+command: >-
+  python eval.py 
+  --scoring_result ${{inputs.scoring_result}} 
+  --eval_output ${{outputs.eval_output}}
