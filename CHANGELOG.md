@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.1.0](https://github.com/kamimanzoor/azureml-demo-component/compare/v1.0.0...v1.1.0) (2025-04-25)
+
+
+### Features
+
+* add a dummy feature 1 ([#2](https://github.com/kamimanzoor/azureml-demo-component/issues/2)) ([2935e83](https://github.com/kamimanzoor/azureml-demo-component/commit/2935e83bb0347ccd4519a78718a00b37f87ce36c))
+* add a dummy feature 2 ([#4](https://github.com/kamimanzoor/azureml-demo-component/issues/4)) ([97c6718](https://github.com/kamimanzoor/azureml-demo-component/commit/97c67184187050b13521ba4a831a2459fe10498e))
+
+
+### Bug Fixes
+
+* add a dummy bug fix 1 ([#5](https://github.com/kamimanzoor/azureml-demo-component/issues/5)) ([43faf7f](https://github.com/kamimanzoor/azureml-demo-component/commit/43faf7fc5db382d1732c8b0dae68b9104c39c42c))
+
 ## 1.0.0 (2025-04-24)
 
 
