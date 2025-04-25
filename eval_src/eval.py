@@ -21,6 +21,7 @@ for line in lines:
 # Evaluate the incoming scoring result and output evaluation result.
 # Here only output a dummy file for demo.
 # Feature 1
+# Feature 2
 curtime = datetime.now().strftime("%b-%d-%Y %H:%M:%S")
 eval_msg = f"Eval done at {curtime}\n"
 (Path(args.eval_output) / "eval_result.txt").write_text(eval_msg)
