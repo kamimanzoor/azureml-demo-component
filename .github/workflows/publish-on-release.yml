@@ -40,11 +40,13 @@ jobs:
           echo "Repository name: $REPO_NAME"
 
           # Now we know what file to expect
-          ZIP_FILE="${REPO_NAME}-${TAG_NAME#v}.zip"
+          ARTIFACT_NAME=${REPO_NAME}-${TAG_NAME#v}
+          ZIP_FILE="$ARTIFACT_NAME.zip"
           echo "Looking for zip file: $ZIP_FILE"
-          unzip $ZIP_FILE -d component
-          ls -la component
-
+          unzip $ZIP_FILE
+          ls -la $ARTIFACT_NAME
+          # Store the artifact name as a GitHub Actions environment variable
+          echo "artifact_name=$ARTIFACT_NAME" >> $GITHUB_ENV
 
       - name: Install Azure ML CLI
         run: |
@@ -52,7 +54,7 @@ jobs:
 
       - uses: cschleiden/replace-tokens@v1
         with:
-          files: '["component/.github/workflows/*.md.tmpl"]'
+          files: '["${{ env.artifact_name }}/.github/workflows/*.md.tmpl"]'
         env:
           version: v1.2.0
           version_link: https://github.com/${{ github.repository }}/releases/tag/v1.2.0
@@ -60,7 +62,9 @@ jobs:
       - name: Publish component to Azure ML Registry
         run: |
           # Read GitHub Actions variable into bash variable
-          description=$(cat component/.github/workflows/description.md.tmpl)
+          cd ${{ env.artifact_name }}
+          ls -la
+          description=$(cat .github/workflows/description.md.tmpl)
           # Display description for debugging
           echo "Description content:"
           echo "$description"
@@ -71,9 +75,9 @@ jobs:
           # Use the variable for the Azure ML commands
           
           # Extract component name from YAML file
-          component_name=$(yq -r '.name' component/$yaml_filename)
+          component_name=$(yq -r '.name' $yaml_filename)
           echo "Component name: $component_name"
 
-          az ml component create --name "$component_name" --file component/"$yaml_filename" --version "$version" \
+          az ml component create --name "$component_name" --file "$yaml_filename" --version "$version" \
           --registry-name ${{ vars.AZURE_ML_REGISTRY_NAME }} \
           --description "$description"
