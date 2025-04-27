@@ -2,10 +2,7 @@ name: Publish Component
 on: 
   workflow_dispatch:
   release:
-    types: [published]
-  push:
-    branches:
-      - '**'
+    types: [published, created, released]
 
 permissions:
   id-token: write
@@ -24,7 +21,7 @@ jobs:
 
       - name: Download release source zip
         run: |
-          TAG_NAME="v1.2.0"
+          TAG_NAME="${{ github.event.release.tag_name }}"
           gh release download $TAG_NAME \
             --archive=zip \
             --repo ${{ github.repository }}
@@ -34,7 +31,7 @@ jobs:
       - name: Unzip component artifact
         run: |
           ls -la
-          TAG_NAME="v1.2.0"
+          TAG_NAME="${{ github.event.release.tag_name }}"
           # Extract repository name from full repository name (owner/repo)
           REPO_NAME=${GITHUB_REPOSITORY#*/}
           echo "Repository name: $REPO_NAME"
@@ -54,10 +51,12 @@ jobs:
 
       - uses: cschleiden/replace-tokens@v1
         with:
+          tokenPrefix: '@@'
+          tokenSuffix: '@@'
           files: '["${{ env.artifact_name }}/.github/workflows/*.md.tmpl"]'
         env:
-          version: v1.2.0
-          version_link: https://github.com/${{ github.repository }}/releases/tag/v1.2.0
+          version: ${{ github.event.release.tag_name }}
+          version_link: https://github.com/${{ github.repository }}/releases/tag/${{ github.event.release.tag_name }}
 
       - name: Publish component to Azure ML Registry
         run: |
@@ -69,7 +68,7 @@ jobs:
           echo "Description content:"
           echo "$description"
           
-          version="v1.2.0"
+          version="${{ github.event.release.tag_name }}"
           yaml_filename="${{ vars.YAML_FILENAME }}"
           echo "Using component file: $yaml_filename"
           # Use the variable for the Azure ML commands
