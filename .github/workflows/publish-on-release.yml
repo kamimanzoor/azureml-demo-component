@@ -52,7 +52,7 @@ jobs:
 
       - uses: cschleiden/replace-tokens@v1
         with:
-          files: '["**/*.md.tmpl"]'
+          files: '["component/.github/workflows/*.md.tmpl"]'
         env:
           version: v1.2.0
           version_link: https://github.com/${{ github.repository }}/releases/tag/v1.2.0
@@ -60,13 +60,13 @@ jobs:
       - name: Publish component to Azure ML Registry
         run: |
           # Read GitHub Actions variable into bash variable
-          description=$(cat .github/workflows/description.md.tmpl)
+          description=$(cat component/.github/workflows/description.md.tmpl)
           # Display description for debugging
           echo "Description content:"
           echo "$description"
           
           version="v1.2.0"
-          yaml_filename="${{ vars.yaml_filename }}"
+          yaml_filename="${{ vars.YAML_FILENAME }}"
           echo "Using component file: $yaml_filename"
           # Use the variable for the Azure ML commands
           
@@ -75,5 +75,5 @@ jobs:
           echo "Component name: $component_name"
 
           az ml component create --name "$component_name" --file component/"$yaml_filename" --version "$version" \
-          --registry-name ${{ vars.azure_ml_registry_name }} --workspace-name ${{ vars.azure_ml_workspace_name }} \
+          --registry-name ${{ vars.AZURE_ML_REGISTRY_NAME }} \
           --description "$description"
