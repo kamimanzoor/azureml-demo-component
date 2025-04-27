@@ -1,0 +1,79 @@
+name: Publish Component on Release
+
+on:
+  release:
+    types: [published]
+  # push:
+  #   branches:
+  #     - '**'
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  publish-to-azureml:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Azure Login with Federated Credentials
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Download release source zip
+        run: |
+          TAG_NAME="${{ github.event.release.tag_name }}"
+          gh release download $TAG_NAME \
+            --archive=zip \
+            --repo ${{ github.repository }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Unzip component artifact
+        run: |
+          ls -la
+          TAG_NAME="${{ github.event.release.tag_name }}"
+          # Extract repository name from full repository name (owner/repo)
+          REPO_NAME=${GITHUB_REPOSITORY#*/}
+          echo "Repository name: $REPO_NAME"
+
+          # Now we know what file to expect
+          ZIP_FILE="${REPO_NAME}-${TAG_NAME#v}.zip"
+          echo "Looking for zip file: $ZIP_FILE"
+          unzip $ZIP_FILE -d component
+          ls -la component
+
+
+      - name: Install Azure ML CLI
+        run: |
+          az extension add -n ml -y
+
+      - uses: cschleiden/replace-tokens@v1
+        with:
+          files: '["**/*.md.tmpl"]'
+        env:
+          version: ${{ github.event.release.tag_name }}
+          version_link: https://github.com/${{ github.repository }}/releases/tag/${{ github.event.release.tag_name }}
+
+      - name: Publish component to Azure ML Registry
+        run: |
+          # Read GitHub Actions variable into bash variable
+          description=$(cat .github/workflows/description.md.tmpl)
+          # Display description for debugging
+          echo "Description content:"
+          echo "$description"
+          
+          version="${{ github.event.release.tag_name }}"
+          yaml_filename="${{ vars.yaml_filename }}"
+          echo "Using component file: $yaml_filename"
+          # Use the variable for the Azure ML commands
+          
+          # Extract component name from YAML file
+          component_name=$(yq -r '.name' component/$yaml_filename)
+          echo "Component name: $component_name"
+
+          az ml component create --name "$component_name" --file component/"$yaml_filename" --version "$version" \
+          --registry-name ${{ vars.azure_ml_registry_name }} --workspace-name ${{ vars.azure_ml_workspace_name }} \
+          --description "$description"
