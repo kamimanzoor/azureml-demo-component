@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/kamimanzoor/azureml-demo-component/compare/v1.2.0...v1.3.0) (2025-04-27)
+
+
+### Features
+
+* add publish workflow ([#8](https://github.com/kamimanzoor/azureml-demo-component/issues/8)) ([9f40d4e](https://github.com/kamimanzoor/azureml-demo-component/commit/9f40d4e15678de8c79644f31a35a32f940721737))
+
 ## [1.2.0](https://github.com/kamimanzoor/azureml-demo-component/compare/v1.1.0...v1.2.0) (2025-04-27)
 
 
