@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.0](https://github.com/kamimanzoor/azureml-demo-component/compare/v1.4.0...v1.5.0) (2025-04-27)
+
+
+### Features
+
+* add missing checkout step in release workflow ([3bae6f6](https://github.com/kamimanzoor/azureml-demo-component/commit/3bae6f647b7b4d39d4e29b6288080f3e4bcdf574))
+
 ## [1.4.0](https://github.com/kamimanzoor/azureml-demo-component/compare/v1.3.0...v1.4.0) (2025-04-27)
 
 
