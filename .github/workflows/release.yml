@@ -23,6 +23,7 @@ jobs:
         id: release
         with:
           release-type: simple
+          config-file: release-please-config.json
 
   publish:
     needs: release-please
