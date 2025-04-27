@@ -7,6 +7,7 @@ on:
   pull_request:
 
 permissions:
+  id-token: write
   contents: write
   issues: write
   pull-requests: write
@@ -19,6 +20,9 @@ jobs:
       release_created: ${{ steps.release.outputs.release_created }}
       tag_name: ${{ steps.release.outputs.tag_name }}
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
       - uses: google-github-actions/release-please-action@v4
         id: release
         with:
