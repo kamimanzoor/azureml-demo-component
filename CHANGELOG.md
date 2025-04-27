@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/kamimanzoor/azureml-demo-component/compare/v1.1.0...v1.2.0) (2025-04-27)
+
+
+### Features
+
+* add workflow to publish component to ml registry ([#6](https://github.com/kamimanzoor/azureml-demo-component/issues/6)) ([4a32374](https://github.com/kamimanzoor/azureml-demo-component/commit/4a32374d7a2ab161504f055031466f3491c3bd12))
+
 ## [1.1.0](https://github.com/kamimanzoor/azureml-demo-component/compare/v1.0.0...v1.1.0) (2025-04-25)
 
 
