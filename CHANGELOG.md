@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.4.0](https://github.com/kamimanzoor/azureml-demo-component/compare/v1.3.0...v1.4.0) (2025-04-27)
+
+
+### Features
+
+* add release-please configuration for automated releases ([#10](https://github.com/kamimanzoor/azureml-demo-component/issues/10)) ([fbb1110](https://github.com/kamimanzoor/azureml-demo-component/commit/fbb111090d8992ae8a0a27cee9d40fd92dc69db6))
+
+
+### Bug Fixes
+
+* add missing config-file parameter to release-please action ([62b076b](https://github.com/kamimanzoor/azureml-demo-component/commit/62b076b17f74806268b7ec0401dc8b1a02a1e15a))
+
 ## [1.3.0](https://github.com/kamimanzoor/azureml-demo-component/compare/v1.2.0...v1.3.0) (2025-04-27)
 
 
