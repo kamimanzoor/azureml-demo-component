@@ -1,11 +1,11 @@
-name: Publish Component on Release
-
-on:
+name: Publish Component
+on: 
+  workflow_dispatch:
   release:
     types: [published]
-  # push:
-  #   branches:
-  #     - '**'
+  push:
+    branches:
+      - '**'
 
 permissions:
   id-token: write
@@ -24,7 +24,7 @@ jobs:
 
       - name: Download release source zip
         run: |
-          TAG_NAME="${{ github.event.release.tag_name }}"
+          TAG_NAME="v1.2.0"
           gh release download $TAG_NAME \
             --archive=zip \
             --repo ${{ github.repository }}
@@ -34,7 +34,7 @@ jobs:
       - name: Unzip component artifact
         run: |
           ls -la
-          TAG_NAME="${{ github.event.release.tag_name }}"
+          TAG_NAME="v1.2.0"
           # Extract repository name from full repository name (owner/repo)
           REPO_NAME=${GITHUB_REPOSITORY#*/}
           echo "Repository name: $REPO_NAME"
@@ -54,8 +54,8 @@ jobs:
         with:
           files: '["**/*.md.tmpl"]'
         env:
-          version: ${{ github.event.release.tag_name }}
-          version_link: https://github.com/${{ github.repository }}/releases/tag/${{ github.event.release.tag_name }}
+          version: v1.2.0
+          version_link: https://github.com/${{ github.repository }}/releases/tag/v1.2.0
 
       - name: Publish component to Azure ML Registry
         run: |
@@ -65,7 +65,7 @@ jobs:
           echo "Description content:"
           echo "$description"
           
-          version="${{ github.event.release.tag_name }}"
+          version="v1.2.0"
           yaml_filename="${{ vars.yaml_filename }}"
           echo "Using component file: $yaml_filename"
           # Use the variable for the Azure ML commands
