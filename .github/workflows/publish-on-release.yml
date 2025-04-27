@@ -1,11 +1,8 @@
-name: Publish Component on Release
-
-on:
+name: Publish Component
+on: 
+  workflow_dispatch:
   release:
-    types: [published]
-  # push:
-  #   branches:
-  #     - '**'
+    types: [published, created, released]
 
 permissions:
   id-token: write
@@ -40,11 +37,13 @@ jobs:
           echo "Repository name: $REPO_NAME"
 
           # Now we know what file to expect
-          ZIP_FILE="${REPO_NAME}-${TAG_NAME#v}.zip"
+          ARTIFACT_NAME=${REPO_NAME}-${TAG_NAME#v}
+          ZIP_FILE="$ARTIFACT_NAME.zip"
           echo "Looking for zip file: $ZIP_FILE"
-          unzip $ZIP_FILE -d component
-          ls -la component
-
+          unzip $ZIP_FILE
+          ls -la $ARTIFACT_NAME
+          # Store the artifact name as a GitHub Actions environment variable
+          echo "artifact_name=$ARTIFACT_NAME" >> $GITHUB_ENV
 
       - name: Install Azure ML CLI
         run: |
@@ -52,7 +51,9 @@ jobs:
 
       - uses: cschleiden/replace-tokens@v1
         with:
-          files: '["**/*.md.tmpl"]'
+          tokenPrefix: '@@'
+          tokenSuffix: '@@'
+          files: '["${{ env.artifact_name }}/.github/workflows/*.md.tmpl"]'
         env:
           version: ${{ github.event.release.tag_name }}
           version_link: https://github.com/${{ github.repository }}/releases/tag/${{ github.event.release.tag_name }}
@@ -60,20 +61,22 @@ jobs:
       - name: Publish component to Azure ML Registry
         run: |
           # Read GitHub Actions variable into bash variable
+          cd ${{ env.artifact_name }}
+          ls -la
           description=$(cat .github/workflows/description.md.tmpl)
           # Display description for debugging
           echo "Description content:"
           echo "$description"
           
           version="${{ github.event.release.tag_name }}"
-          yaml_filename="${{ vars.yaml_filename }}"
+          yaml_filename="${{ vars.YAML_FILENAME }}"
           echo "Using component file: $yaml_filename"
           # Use the variable for the Azure ML commands
           
           # Extract component name from YAML file
-          component_name=$(yq -r '.name' component/$yaml_filename)
+          component_name=$(yq -r '.name' $yaml_filename)
           echo "Component name: $component_name"
 
-          az ml component create --name "$component_name" --file component/"$yaml_filename" --version "$version" \
-          --registry-name ${{ vars.azure_ml_registry_name }} --workspace-name ${{ vars.azure_ml_workspace_name }} \
-          --description "$description"
+          az ml component create --name "$component_name" --file "$yaml_filename" --version "$version" \
+          --registry-name ${{ vars.AZURE_ML_REGISTRY_NAME }} \
+          --set description="$description"

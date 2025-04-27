@@ -1,4 +1,4 @@
-name: Release and Publish Component
+name: Release Component
 
 on:
   push:
@@ -24,6 +24,7 @@ jobs:
         with:
           release-type: simple
           package-name: azureml-demo-component
+          include-v-in-tag: false
 
 #   build-and-publish:
 #     needs: release-please
