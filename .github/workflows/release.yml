@@ -23,8 +23,6 @@ jobs:
         id: release
         with:
           release-type: simple
-          package-name: azureml-demo-component
-          include-v-in-tag: false
 
 #   build-and-publish:
 #     needs: release-please
