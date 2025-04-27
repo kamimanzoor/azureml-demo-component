@@ -80,4 +80,4 @@ jobs:
 
           az ml component create --name "$component_name" --file "$yaml_filename" --version "$version" \
           --registry-name ${{ vars.AZURE_ML_REGISTRY_NAME }} \
-          --description "$description"
+          --set description="$description"
