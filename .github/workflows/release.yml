@@ -27,6 +27,7 @@ jobs:
         id: release
         with:
           config-file: release.config.json
+          manifest-file: release.manifest.json
 
   publish:
     needs: release-please
