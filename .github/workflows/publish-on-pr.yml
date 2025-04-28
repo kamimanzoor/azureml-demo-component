@@ -75,6 +75,12 @@ jobs:
           # Display the modified YAML for verification
           echo "Modified YAML file:"
           cat $yaml_filename
+          
+          yq -i ".tags.build = \"pullrequest\"" $yaml_filename
+          
+          # Display the modified YAML for verification
+          echo "Modified YAML file:"
+          cat $yaml_filename
 
           az ml component create --name "$component_name" --file "$yaml_filename" \
           --workspace-name ${{ vars.AZURE_ML_WORKSPACE_NAME }} \
