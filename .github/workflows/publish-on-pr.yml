@@ -78,4 +78,5 @@ jobs:
 
           az ml component create --name "$component_name" --file "$yaml_filename" \
           --workspace-name ${{ vars.AZURE_ML_WORKSPACE_NAME }} \
+          -g ${{ vars.AZURE_ML_WORKSPACE_RG }} \
           --set description="$description"
