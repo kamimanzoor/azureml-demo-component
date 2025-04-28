@@ -1,3 +1,6 @@
+# This workflow is triggered on pushes to the main branch. It uses the
+# googleapis/release-please-action to create a release based on the commit messages.
+# The release is then published to the Azure ML Registry using the Azure CLI.
 name: Release Component
 
 on:
