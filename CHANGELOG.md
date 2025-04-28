@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.6.1](https://github.com/kamimanzoor/azureml-demo-component/compare/v1.6.0...v1.6.1) (2025-04-28)
+
+
+### Bug Fixes
+
+* add schema reference to release-please configuration ([73423eb](https://github.com/kamimanzoor/azureml-demo-component/commit/73423eb202f32a4eac09f6473e1d3a3b35afec70))
+* update release-please-action reference to use googleapis ([b7baebe](https://github.com/kamimanzoor/azureml-demo-component/commit/b7baebe64f5efc0d26c75c68eb9a08be65d3fd46))
+
 ## [1.6.0](https://github.com/kamimanzoor/azureml-demo-component/compare/v1.5.0...v1.6.0) (2025-04-28)
 
 
