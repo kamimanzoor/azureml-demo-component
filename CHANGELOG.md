@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.0](https://github.com/kamimanzoor/azureml-demo-component/compare/v1.5.0...v1.6.0) (2025-04-28)
+
+
+### Features
+
+* update release workflow to include versioning and changelog in YAML file ([f4a9b81](https://github.com/kamimanzoor/azureml-demo-component/commit/f4a9b815a9b1226314634dc37d68dc0513bbad58))
+
 ## [1.5.0](https://github.com/kamimanzoor/azureml-demo-component/compare/v1.4.0...v1.5.0) (2025-04-27)
 
 
