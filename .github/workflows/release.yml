@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-  pull_request:
 
 permissions:
   id-token: write
@@ -14,7 +13,6 @@ permissions:
 
 jobs:
   release-please:
-    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     outputs:
       release_created: ${{ steps.release.outputs.release_created }}
@@ -28,7 +26,7 @@ jobs:
         with:
           release-type: simple
 
-  publish:
+  publish-to-registry:
     needs: release-please
     runs-on: ubuntu-latest
     if: needs.release-please.outputs.release_created == 'true'

@@ -1,0 +1,78 @@
+name: PR Build and Publish Component
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  id-token: write
+  contents: write
+  issues: write
+  pull-requests: write
+
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+       
+      - name: Execute tests
+        run: |
+          ls -la
+          echo "Executing tests..."
+
+  publish-to-workspace:
+    needs: run-tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Azure Login with Federated Credentials
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Install Azure ML CLI
+        run: |
+          az extension add -n ml -y
+
+      - uses: cschleiden/replace-tokens@v1
+        with:
+          tokenPrefix: '@@'
+          tokenSuffix: '@@'
+          files: '["${{ env.artifact_name }}/.github/workflows/*.md.tmpl"]'
+        env:
+          version: ${{ github.event.pull_request.head.sha }}
+          version_link: ${{ github.event.pull_request.html_url }}
+
+      - name: Publish component to Azure ML Registry
+        run: |
+          # Read GitHub Actions variable into bash variable
+          ls -la
+          description=$(cat .github/workflows/description.md.tmpl)
+          # Display description for debugging
+          echo "Description content:"
+          echo "$description"
+          
+          version="${{ github.event.pull_request.head.sha }}"
+          yaml_filename="${{ vars.YAML_FILENAME }}"
+          echo "Using component file: $yaml_filename"
+          # Use the variable for the Azure ML commands
+          
+          # Extract component name from YAML file
+          component_name=$(yq -r '.name' $yaml_filename)
+          echo "Component name: $component_name"
+
+          # Add version to the YAML file
+          yq -i ".version = \"${version}\"" $yaml_filename
+                    
+          # Display the modified YAML for verification
+          echo "Modified YAML file:"
+          cat $yaml_filename
+
+          az ml component create --name "$component_name" --file "$yaml_filename" \
+          --workspace-name ${{ vars.AZURE_ML_WORKSPACE_NAME }} \
+          --set description="$description"
