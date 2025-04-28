@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.9.0](https://github.com/kamimanzoor/azureml-demo-component/compare/v1.8.0...v1.9.0) (2025-04-28)
+
+
+### Features
+
+* add workflows for conventional commit linting and PR build/publish; remove obsolete publish-on-release workflow ([4d8a23c](https://github.com/kamimanzoor/azureml-demo-component/commit/4d8a23c26dd9efaceefb9c910a09f2feebdd4782))
+
 ## [1.8.0](https://github.com/kamimanzoor/azureml-demo-component/compare/1.7.1...v1.8.0) (2025-04-28)
 
 
