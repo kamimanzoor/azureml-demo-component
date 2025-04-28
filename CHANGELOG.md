@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.1](https://github.com/kamimanzoor/azureml-demo-component/compare/v1.7.0...1.7.1) (2025-04-28)
+
+
+### Bug Fixes
+
+* update release-please action to version 3 and remove config file reference ([9a70310](https://github.com/kamimanzoor/azureml-demo-component/commit/9a703101e3301db0ecffab33ccd634afe01bf193))
+
 ## [1.7.0](https://github.com/kamimanzoor/azureml-demo-component/compare/v1.6.1...v1.7.0) (2025-04-28)
 
 
