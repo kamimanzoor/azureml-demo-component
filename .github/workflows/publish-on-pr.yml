@@ -28,6 +28,9 @@ jobs:
     needs: run-tests
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Azure Login with Federated Credentials
         uses: azure/login@v2
         with:
@@ -43,7 +46,7 @@ jobs:
         with:
           tokenPrefix: '@@'
           tokenSuffix: '@@'
-          files: '["${{ env.artifact_name }}/.github/workflows/*.md.tmpl"]'
+          files: '[".github/workflows/*.md.tmpl"]'
         env:
           version: ${{ github.event.pull_request.head.sha }}
           version_link: ${{ github.event.pull_request.html_url }}
