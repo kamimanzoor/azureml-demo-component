@@ -1,6 +1,5 @@
 $schema: https://azuremlschemas.azureedge.net/latest/commandComponent.schema.json
 name: my_eval
-#version: 4.0.2
 display_name: Eval
 type: command
 inputs:
@@ -12,6 +11,9 @@ outputs:
 environment: azureml://registries/azureml/environments/sklearn-1.5/labels/latest
 code: ./eval_src
 command: >-
-  python eval.py 
-  --scoring_result ${{inputs.scoring_result}} 
-  --eval_output ${{outputs.eval_output}}
+  python eval.py  --scoring_result ${{inputs.scoring_result}}  --eval_output ${{outputs.eval_output}}
+tags:
+  contact: ml-team@example.com
+  owner: ml-team
+  type: evaluation
+  repo: https://github.com/kamimanzoor/azureml-demo-component

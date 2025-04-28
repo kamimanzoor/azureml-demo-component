@@ -99,6 +99,17 @@ jobs:
           component_name=$(yq -r '.name' $yaml_filename)
           echo "Component name: $component_name"
 
+          # Add version to the YAML file
+          yq -i ".version = \"${version}\"" $yaml_filename
+          
+          version_link="https://github.com/${{ github.repository }}/releases/tag/${{ needs.release-please.outputs.tag_name }}"
+
+          yq -i ".tags.changelog = \"${version_link}\"" $yaml_filename
+          
+          # Display the modified YAML for verification
+          echo "Modified YAML file:"
+          cat $yaml_filename
+
           az ml component create --name "$component_name" --file "$yaml_filename" --version "$version" \
           --registry-name ${{ vars.AZURE_ML_REGISTRY_NAME }} \
           --set description="$description"
