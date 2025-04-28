@@ -1,4 +1,5 @@
 {
+  "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
   "release-type": "simple",
   "pull-request-header": ":rocket: I have created a new release",  
   "package-name": "azureml-demo-component",
