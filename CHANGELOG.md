@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.8.0](https://github.com/kamimanzoor/azureml-demo-component/compare/1.7.1...v1.8.0) (2025-04-28)
+
+
+### Features
+
+* upgrade release-please action to version 4 and remove unnecessary parameters ([055aba3](https://github.com/kamimanzoor/azureml-demo-component/commit/055aba33d0c1c1294f1b2f0dbe53e73d6f110042))
+
+
+### Bug Fixes
+
+* add missing parameters for release-please action in workflow ([841e7e6](https://github.com/kamimanzoor/azureml-demo-component/commit/841e7e69edc31fbbc6fb4dad1266086dcfd97e42))
+
 ## [1.7.1](https://github.com/kamimanzoor/azureml-demo-component/compare/v1.7.0...1.7.1) (2025-04-28)
 
 
