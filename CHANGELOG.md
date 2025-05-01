@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.10.0](https://github.com/kamimanzoor/azureml-demo-component/compare/v1.9.0...v1.10.0) (2025-05-01)
+
+
+### Features
+
+* add feature 3 to evaluation script ([#20](https://github.com/kamimanzoor/azureml-demo-component/issues/20)) ([ee429cb](https://github.com/kamimanzoor/azureml-demo-component/commit/ee429cb32ff495fe96b83c83ee10b5ea032086e0))
+
 ## [1.9.0](https://github.com/kamimanzoor/azureml-demo-component/compare/v1.8.0...v1.9.0) (2025-04-28)
 
 
